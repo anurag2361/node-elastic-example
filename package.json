@@ -1,0 +1,22 @@
+{
+    "author": "Anurag Sharma",
+    "dependencies": {
+        "@elastic/elasticsearch": "^7.4.0",
+        "express": "^4.17.1",
+        "slug": "^1.1.0"
+    },
+    "description": "",
+    "devDependencies": {
+        "@types/express": "^4.17.1",
+        "@types/slug": "^0.9.1",
+        "tslint": "^5.20.0",
+        "typescript": "^3.6.4"
+    },
+    "license": "ISC",
+    "main": "dist/index.js",
+    "name": "node-elastic",
+    "scripts": {
+        "start": "rm -rf dist/ && tsc && node dist/src/index.js"
+    },
+    "version": "0.1.0"
+}

@@ -19,7 +19,7 @@
     "main": "dist/index.js",
     "name": "node-elastic",
     "scripts": {
-        "start": "rm -rf dist/ && tsc && node dist/src/index.js"
+        "start": "rm -rf dist/ && tsc && NODE_ENV=production node dist/src/index.js"
     },
     "version": "0.1.0"
 }

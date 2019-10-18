@@ -42,8 +42,8 @@ router.post("/feedData", async (req: Request, res: Response) => {
 });
 
 router.get("/getData", async (req: Request, res: Response) => {
-    const artistName: string = req.body.artistName;
-    const trackName: string = req.body.trackName;
+    const artistName: string = req.query.artistName;
+    const trackName: string = req.query.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
     const result = await ElasticFunctions.prototype.fetch(value);

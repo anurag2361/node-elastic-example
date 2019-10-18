@@ -53,8 +53,8 @@ router.post("/feedData", (req, res) => __awaiter(void 0, void 0, void 0, functio
     });
 }));
 router.get("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const artistName = req.body.artistName;
-    const trackName = req.body.trackName;
+    const artistName = req.query.artistName;
+    const trackName = req.query.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
     const result = yield eController_1.ElasticFunctions.prototype.fetch(value);

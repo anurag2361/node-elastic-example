@@ -19,7 +19,7 @@ const router = express_1.Router();
 router.post("/feedData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const artist = req.body.artist;
     console.log(artist);
-    request_promise_1.default(`https://itunes.apple.com/search?term=${artist}&limit=300`)
+    request_promise_1.default(`https://itunes.apple.com/search?term=${artist}&limit=100000`)
         .then((response) => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield JSON.parse(response);
         for (let i = result.results.length - 1; i >= 0; i--) {

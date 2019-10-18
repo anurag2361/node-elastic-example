@@ -6,7 +6,7 @@ const router = Router();
 router.post("/feedData", async (req: Request, res: Response) => {
     const artist = req.body.artist;
     console.log(artist);
-    rp(`https://itunes.apple.com/search?term=${artist}&limit=300`)
+    rp(`https://itunes.apple.com/search?term=${artist}&limit=100000`)
         .then(async (response) => {
             const result = await JSON.parse(response);
             // tslint:disable-next-line: prefer-for-of

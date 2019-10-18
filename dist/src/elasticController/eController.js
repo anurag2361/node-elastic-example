@@ -8,37 +8,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const elasticsearch_1 = require("@elastic/elasticsearch");
-const slug_1 = __importDefault(require("slug"));
 const client = new elasticsearch_1.Client({ node: "http://localhost:9200" });
 class ElasticFunctions {
     constructor() { }
-    feed(indexdata, company, address) {
+    feed(artistId, trackName, kind, artistName, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency) {
         return __awaiter(this, void 0, void 0, function* () {
-            const indexData = slug_1.default(indexdata);
-            const feedData = yield client.index({
-                index: indexData,
+            yield client.index({
+                index: "artist",
                 body: {
-                    address,
-                    company,
+                    kind,
+                    artistId,
+                    artistName,
+                    trackName,
+                    collectionName,
+                    collectionCensoredName,
+                    artistViewUrl,
+                    collectionViewUrl,
+                    trackViewUrl,
+                    previewUrl,
+                    artworkUrl100,
+                    collectionPrice,
+                    releaseDate,
+                    collectionExplicitness,
+                    trackExplicitness,
+                    discCount,
+                    discNumber,
+                    trackCount,
+                    trackNumber,
+                    country,
+                    currency,
                 },
+            }).then((value) => {
+                return "done";
+            }).catch((error) => {
+                throw error;
             });
-            return feedData;
         });
     }
-    fetch(index, value) {
+    fetch(value) {
         return __awaiter(this, void 0, void 0, function* () {
-            const index1 = slug_1.default(index);
             const searchResult = {
-                index: index1,
+                index: "artist",
                 body: {
                     query: {
-                        match: {
-                            address: value,
+                        bool: {
+                            should: [
+                                { match: { artistName: value } },
+                                { match: { trackName: value } },
+                            ],
                         },
                     },
                 },

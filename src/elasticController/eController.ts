@@ -4,7 +4,12 @@ const client = new Client({ node: "http://localhost:9200" });
 
 interface ISearchBody {
     query: {
-        match: { address: string },
+        bool: {
+            should: [
+                { match: { "artistName": string } },
+                { match: { "trackName": string } },
+            ],
+        },
     };
 }
 
@@ -53,26 +58,50 @@ interface ISearchResponse<T> {
 
 export class ElasticFunctions {
     constructor() { }
-    public async feed(indexdata, company, address) {
-        const indexData = slug(indexdata);
-        const feedData = await client.index({
-            index: indexData,
+    public async feed(artistId, trackName, kind, artistName, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency) {
+        await client.index({
+            index: "artist",
             body: {
-                address,
-                company,
+                kind,
+                artistId,
+                artistName,
+                trackName,
+                collectionName,
+                collectionCensoredName,
+                artistViewUrl,
+                collectionViewUrl,
+                trackViewUrl,
+                previewUrl,
+                artworkUrl100,
+                collectionPrice,
+                releaseDate,
+                collectionExplicitness,
+                trackExplicitness,
+                discCount,
+                discNumber,
+                trackCount,
+                trackNumber,
+                country,
+                currency,
             },
+        }).then((value) => {
+            return "done";
+        }).catch((error) => {
+            throw error;
         });
-        return feedData;
     }
 
-    public async fetch(index, value) {
-        const index1 = slug(index);
+    public async fetch(value) {
+
         const searchResult: RequestParams.Search<ISearchBody> = {
-            index: index1,
+            index: "artist",
             body: {
                 query: {
-                    match: {
-                        address: value,
+                    bool: {
+                        should: [
+                            { match: { artistName: value } },
+                            { match: { trackName: value } },
+                        ],
                     },
                 },
             },

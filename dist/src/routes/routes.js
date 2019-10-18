@@ -8,21 +8,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const request_promise_1 = __importDefault(require("request-promise"));
 const eController_1 = require("./../elasticController/eController");
 const router = express_1.Router();
 router.post("/feedData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const index = req.body.index;
-    const company = req.body.company;
-    const address = req.body.address;
-    const result = yield eController_1.ElasticFunctions.prototype.feed(index, company, address);
-    res.send(result);
+    const artist = req.body.artist;
+    console.log(artist);
+    request_promise_1.default(`https://itunes.apple.com/search?term=${artist}&limit=300`)
+        .then((response) => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield JSON.parse(response);
+        for (let i = result.results.length - 1; i >= 0; i--) {
+            let artistId = result.results[i].artistId;
+            console.log(artistId);
+            let kind = result.results[i].kind;
+            let artistName = result.results[i].artistName;
+            let trackName = result.results[i].trackName;
+            let collectionName = result.results[i].collectionName;
+            let collectionCensoredName = result.results[i].collectionCensoredName;
+            let artistViewUrl = result.results[i].artistViewUrl;
+            let collectionViewUrl = result.results[i].collectionViewUrl;
+            let trackViewUrl = result.results[i].trackViewUrl;
+            let previewUrl = result.results[i].previewUrl;
+            let artworkUrl100 = result.results[i].artworkUrl100;
+            let collectionPrice = result.results[i].collectionPrice;
+            let releaseDate = result.results[i].releaseDate;
+            let collectionExplicitness = result.results[i].collectionExplicitness;
+            let trackExplicitness = result.results[i].trackExplicitness;
+            let discCount = result.results[i].discCount;
+            let discNumber = result.results[i].discNumber;
+            let trackCount = result.results[i].trackCount;
+            let trackNumber = result.results[i].trackNumber;
+            let country = result.results[i].country;
+            let currency = result.results[i].currency;
+            yield eController_1.ElasticFunctions.prototype.feed(artistId, trackName, kind, artistName, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency);
+        }
+        res.send("Done");
+    })).catch((error) => {
+        throw error;
+    });
 }));
 router.get("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const index = req.body.index;
-    const value = req.body.value;
-    const result = yield eController_1.ElasticFunctions.prototype.fetch(index, value);
+    const artistName = req.body.artistName;
+    const trackName = req.body.trackName;
+    let value = (artistName === undefined || artistName === null) ? trackName : artistName;
+    console.log(value);
+    const result = yield eController_1.ElasticFunctions.prototype.fetch(value);
     res.send(result);
 }));
 exports.default = router;

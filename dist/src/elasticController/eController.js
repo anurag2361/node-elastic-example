@@ -52,6 +52,8 @@ class ElasticFunctions {
             const searchResult = {
                 index: "artist",
                 body: {
+                    from: 0,
+                    size: 30,
                     query: {
                         bool: {
                             should: [

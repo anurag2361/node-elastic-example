@@ -2,6 +2,8 @@ import { ApiResponse, Client, RequestParams } from "@elastic/elasticsearch";
 const client = new Client({ node: "http://localhost:9200" });
 
 interface ISearchBody {
+    from: number;
+    size: number;
     query: {
         bool: {
             should: [
@@ -95,6 +97,8 @@ export class ElasticFunctions {
         const searchResult: RequestParams.Search<ISearchBody> = {
             index: "artist",
             body: {
+                from: 0,
+                size: 30,
                 query: {
                     bool: {
                         should: [

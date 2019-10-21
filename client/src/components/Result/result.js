@@ -39,7 +39,7 @@ class Result extends Component {
                                     <td>{item._source.collectionPrice}</td>
                                     <td>{item._source.country}</td>
                                     <td>{item._source.currency}</td>
-                                    <td>{item._source.releaseDate}</td>
+                                    <td>{(item._source.releaseDate).substring(0, 10)}</td>
                                 </tr>
                             )
                         })}

@@ -1,0 +1,1 @@
+## Git clone and in the folder, open a terminal and run `npm run dev`

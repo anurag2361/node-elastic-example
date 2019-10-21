@@ -63,7 +63,6 @@ class ElasticFunctions {
                 },
             };
             const response = yield client.search(searchResult);
-            console.log(response.body);
             return response.body;
         });
     }

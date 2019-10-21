@@ -5,14 +5,12 @@ const router = Router();
 
 router.post("/feedData", async (req: Request, res: Response) => {
     const artist = req.body.artist;
-    console.log(artist);
     rp(`https://itunes.apple.com/search?term=${artist}&limit=100000`)
         .then(async (response) => {
             const result = await JSON.parse(response);
             // tslint:disable-next-line: prefer-for-of
             for (let i = result.results.length - 1; i >= 0; i--) {
                 let artistId = result.results[i].artistId;
-                console.log(artistId);
                 let kind = result.results[i].kind;
                 let artistName = result.results[i].artistName;
                 let trackName = result.results[i].trackName;
@@ -41,9 +39,9 @@ router.post("/feedData", async (req: Request, res: Response) => {
         });
 });
 
-router.get("/getData", async (req: Request, res: Response) => {
-    const artistName: string = req.query.artistName;
-    const trackName: string = req.query.trackName;
+router.post("/getData", async (req: Request, res: Response) => {
+    const artistName: string = req.body.artistName;
+    const trackName: string = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
     const result = await ElasticFunctions.prototype.fetch(value);

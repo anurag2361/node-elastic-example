@@ -1,5 +1,4 @@
 import { ApiResponse, Client, RequestParams } from "@elastic/elasticsearch";
-import slug from "slug";
 const client = new Client({ node: "http://localhost:9200" });
 
 interface ISearchBody {
@@ -107,7 +106,6 @@ export class ElasticFunctions {
             },
         };
         const response: ApiResponse<ISearchResponse<ISource>> = await client.search(searchResult);
-        console.log(response.body);
         return response.body;
     }
 }

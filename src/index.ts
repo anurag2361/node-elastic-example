@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import path from "path";
 import router from "./routes/routes";
 const port: number = 3001;
 const app: Express = express();

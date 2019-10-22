@@ -45,8 +45,12 @@ router.post("/getData", async (req: Request, res: Response) => {
     const trackName: string = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
-    const result = await ElasticFunctions.prototype.fetch(value, from);
-    res.send(result);
+    if (value.length > 0) {
+        const result = await ElasticFunctions.prototype.fetch(value, from);
+        res.send(result);
+    } else {
+        return;
+    }
 });
 
 export default router;

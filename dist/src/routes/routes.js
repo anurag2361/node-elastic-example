@@ -56,8 +56,13 @@ router.post("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function
     const trackName = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
-    const result = yield eController_1.ElasticFunctions.prototype.fetch(value, from);
-    res.send(result);
+    if (value.length > 0) {
+        const result = yield eController_1.ElasticFunctions.prototype.fetch(value, from);
+        res.send(result);
+    }
+    else {
+        return;
+    }
 }));
 exports.default = router;
 //# sourceMappingURL=routes.js.map

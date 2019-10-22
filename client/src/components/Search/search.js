@@ -11,7 +11,6 @@ class Search extends Component {
             trackName: '',
             response: ''
         };
-        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -19,14 +18,11 @@ class Search extends Component {
         this.setState({ artistName: "", trackName: "", response: '' });
     }
 
-    handleChange(event) {
+    handleSubmit(event) {
+        event.preventDefault();
         const state = this.state;
         state[event.target.name] = event.target.value;
         this.setState(state);
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
         if (this.state.artistName.length > 0) {
             axios.post("/data/getData", {
                 artistName: this.state.artistName
@@ -55,8 +51,8 @@ class Search extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <p>Enter Artist or Track Name:</p>
-                    <input type="text" id="trackName" name="trackName" value={this.state.trackName} onChange={this.handleChange} placeholder="Track Name" />
-                    <input type="text" id="artistName" name="artistName" value={this.state.artistName} onChange={this.handleChange} placeholder="Artist Name" />
+                    <input type="text" id="trackName" name="trackName" value={this.state.trackName} onChange={this.handleSubmit} placeholder="Track Name" />
+                    <input type="text" id="artistName" name="artistName" value={this.state.artistName} onChange={this.handleSubmit} placeholder="Artist Name" />
                     <button type="submit">Submit</button>
                     <Result response={response} />
                 </form>

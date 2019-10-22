@@ -34,7 +34,7 @@ class Search extends Component {
                 console.log(error);
             });
         } else {
-            axios.post("/data/getData", {
+            axios.post(`/data/getData?from=${this.state.from}`, {
                 trackName: this.state.trackName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
@@ -57,7 +57,7 @@ class Search extends Component {
                     console.log(error);
                 });
             } else {
-                axios.post("/data/getData", {
+                axios.post(`/data/getData?from=${this.state.from}`, {
                     trackName: this.state.trackName
                 }).then((data) => {
                     this.setState({ response: data.data.hits.hits });
@@ -84,7 +84,7 @@ class Search extends Component {
                 console.log(error);
             });
         } else {
-            axios.post("/data/getData", {
+            axios.post(`/data/getData?from=${this.state.from}`, {
                 trackName: this.state.trackName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });

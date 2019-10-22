@@ -40,11 +40,12 @@ router.post("/feedData", async (req: Request, res: Response) => {
 });
 
 router.post("/getData", async (req: Request, res: Response) => {
+    const from: number = parseInt(req.query.from, 10);
     const artistName: string = req.body.artistName;
     const trackName: string = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
-    const result = await ElasticFunctions.prototype.fetch(value);
+    const result = await ElasticFunctions.prototype.fetch(value, from);
     res.send(result);
 });
 

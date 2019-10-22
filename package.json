@@ -21,7 +21,8 @@
     "scripts": {
         "client": "cd client && npm start",
         "server": "rm -rf dist/ && tsc && NODE_ENV=production node dist/src/index.js",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "start": "rm -rf dist/ && tsc && NODE_ENV=production node dist/src/index.js"
     },
     "version": "0.1.0"
 }

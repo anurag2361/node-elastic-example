@@ -47,12 +47,12 @@ class ElasticFunctions {
             });
         });
     }
-    fetch(value) {
+    fetch(value, numFrom) {
         return __awaiter(this, void 0, void 0, function* () {
             const searchResult = {
                 index: "artist",
                 body: {
-                    from: 0,
+                    from: numFrom,
                     size: 30,
                     query: {
                         bool: {

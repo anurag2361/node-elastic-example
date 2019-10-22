@@ -18,7 +18,7 @@ Mainly for my practice with ES and to showcase the tremendous abilities of the a
 
 4. Git clone this project and go into the downloaded directory.
 
-5. Run `npm install` from your system's terminal (or `sudo npm install if you're on Linux`).
+5. Run `npm install` from your system's terminal (or `sudo npm install` if you're on Linux).
 
 6. Start the app through typing `npm run dev` from your terminal.
 

@@ -92,12 +92,12 @@ export class ElasticFunctions {
         });
     }
 
-    public async fetch(value) {
+    public async fetch(value, numFrom) {
 
         const searchResult: RequestParams.Search<ISearchBody> = {
             index: "artist",
             body: {
-                from: 0,
+                from: numFrom,
                 size: 30,
                 query: {
                     bool: {

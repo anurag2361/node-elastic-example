@@ -51,11 +51,12 @@ router.post("/feedData", (req, res) => __awaiter(void 0, void 0, void 0, functio
     });
 }));
 router.post("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const from = parseInt(req.query.from, 10);
     const artistName = req.body.artistName;
     const trackName = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
-    const result = yield eController_1.ElasticFunctions.prototype.fetch(value);
+    const result = yield eController_1.ElasticFunctions.prototype.fetch(value, from);
     res.send(result);
 }));
 exports.default = router;

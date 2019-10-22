@@ -36,3 +36,11 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+rbut {
+  margin-right: 10px !important;
+}
+
+lbut {
+  margin-left: 10px !important;
+}

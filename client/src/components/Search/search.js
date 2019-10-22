@@ -112,10 +112,10 @@ class Search extends Component {
                     <p>Enter Artist or Track Name:</p>
                     <input type="text" id="trackName" name="trackName" value={this.state.trackName} onChange={this.handleSubmit} placeholder="Track Name" />
                     <input type="text" id="artistName" name="artistName" value={this.state.artistName} onChange={this.handleSubmit} placeholder="Artist Name" />
-                    <button type="submit">Submit</button>
+                    <button className="btn btn-success" type="submit">Submit</button>
                 </form>
-                <button onClick={this.prevFunction}> Previous </button>
-                <button onClick={this.nextFunction}> Next </button>
+                <button className="btn btn-primary float-md-left lbut" onClick={this.prevFunction}> Previous </button>
+                <button className="btn btn-info float-md-right rbut" onClick={this.nextFunction}> Next </button>
                 <Result response={response} />
             </div>
         )

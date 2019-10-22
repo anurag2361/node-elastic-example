@@ -24,14 +24,12 @@ class Search extends Component {
     nextFunction(event) {
         event.preventDefault();
         this.setState({ from: this.state.from + 30 });
-        console.log(this.state.from);
-
+        
         if (this.state.artistName.length > 0) {
             axios.post(`/data/getData?from=${this.state.from}`, {
                 artistName: this.state.artistName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
-                console.log(this.state.response);
             }).catch((error) => {
                 console.log(error);
             });
@@ -40,7 +38,6 @@ class Search extends Component {
                 trackName: this.state.trackName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
-                console.log(this.state.response);
             }).catch((error) => {
                 console.log(error);
             });
@@ -50,14 +47,12 @@ class Search extends Component {
     prevFunction(event) {
         event.preventDefault();
         this.setState({ from: this.state.from - 30 });
-        console.log(this.state.from);
         if (this.state.from >= 0) {
             if (this.state.artistName.length > 0) {
                 axios.post(`/data/getData?from=${this.state.from}`, {
                     artistName: this.state.artistName
                 }).then((data) => {
                     this.setState({ response: data.data.hits.hits });
-                    console.log(this.state.response);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -66,7 +61,6 @@ class Search extends Component {
                     trackName: this.state.trackName
                 }).then((data) => {
                     this.setState({ response: data.data.hits.hits });
-                    console.log(this.state.response);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -81,13 +75,11 @@ class Search extends Component {
         const state = this.state;
         state[event.target.name] = event.target.value;
         this.setState(state);
-        console.log(this.state.from);
         if (this.state.artistName.length > 0) {
             axios.post(`/data/getData?from=${this.state.from}`, {
                 artistName: this.state.artistName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
-                console.log(this.state.response);
             }).catch((error) => {
                 console.log(error);
             });
@@ -96,7 +88,6 @@ class Search extends Component {
                 trackName: this.state.trackName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
-                console.log(this.state.response);
             }).catch((error) => {
                 console.log(error);
             });
@@ -105,7 +96,6 @@ class Search extends Component {
 
     render() {
         const { response } = this.state;
-        console.log(this.state);
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>

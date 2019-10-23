@@ -8,18 +8,20 @@ class Result extends Component {
         console.log(this.props.response);
         return (
 
-            <div>
-                <table className="ResultTable">
-                    <thead>
-                        <th>Image</th>
-                        <th>Song</th>
-                        <th>Artist</th>
-                        <th>Album</th>
-                        <th>Price</th>
-                        <th>Country</th>
-                        <th>Currency</th>
-                        <th>Release Date</th>
-                        <th>Preview</th>
+            <div className="table-responsive table-responsive-md table-responsive-sm table-responsive-xl table-responsive-lg">
+                <table className="table table-striped table-bordered table-hover table-dark">
+                    <thead className="thead-light">
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Song</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Album</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Release Date</th>
+                            <th scope="col">Preview</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.props.response.length === 0 ? <tr>

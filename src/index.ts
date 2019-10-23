@@ -21,11 +21,12 @@ if (cluster.isMaster) {
         console.log(`worker ${worker.process.pid} died`);
     });
 } else {
-    app.listen(port, (err) => {
+    const server: any = app.listen(port, "localhost", (err) => {
         if (err) {
             throw err;
         } else {
-            console.log(`App running on http://localhost:${port}`);
+            const host = server.address().address;
+            console.log("Example app listening at http://%s:%s", host, port);
         }
     });
 }

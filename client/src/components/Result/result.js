@@ -3,9 +3,6 @@ import ReactAudioPlayer from 'react-audio-player';
 import { withRouter } from 'react-router-dom';
 
 class Result extends Component {
-    constructor() {
-        super();
-    }
 
     render() {
         console.log(this.props.response);

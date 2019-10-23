@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import App from './App.js';
 import { Switch, Route } from 'react-router-dom';
 import Search from './components/Search/search';
 

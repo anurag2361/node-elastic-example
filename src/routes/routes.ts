@@ -39,7 +39,7 @@ router.post("/feedData", async (req: Request, res: Response) => {
         });
 });
 
-router.post("/getData", async (req: Request, res: Response) => {
+router.post("/getData", async (req: Request, res: Response, next) => {
     const from: number = parseInt(req.query.from, 10);
     const artistName: string = req.body.artistName;
     const trackName: string = req.body.trackName;
@@ -49,7 +49,8 @@ router.post("/getData", async (req: Request, res: Response) => {
         const result = await ElasticFunctions.prototype.fetch(value, from);
         res.send(result);
     } else {
-        return;
+        console.log("returning");
+        next();
     }
 });
 

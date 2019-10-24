@@ -50,7 +50,7 @@ router.post("/feedData", (req, res) => __awaiter(void 0, void 0, void 0, functio
         throw error;
     });
 }));
-router.post("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/getData", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const from = parseInt(req.query.from, 10);
     const artistName = req.body.artistName;
     const trackName = req.body.trackName;
@@ -61,7 +61,8 @@ router.post("/getData", (req, res) => __awaiter(void 0, void 0, void 0, function
         res.send(result);
     }
     else {
-        return;
+        console.log("returning");
+        next();
     }
 }));
 exports.default = router;

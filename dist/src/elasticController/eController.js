@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const elasticsearch_1 = require("@elastic/elasticsearch");
 const client = new elasticsearch_1.Client({ node: "http://localhost:9200" });
 class ElasticFunctions {
-    constructor() { }
     feed(artistId, trackName, kind, artistName, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency) {
         return __awaiter(this, void 0, void 0, function* () {
             yield client.index({
                 index: "artist",
+                type: "_doc",
                 body: {
                     kind,
                     artistId,
@@ -49,23 +49,33 @@ class ElasticFunctions {
     }
     fetch(value, numFrom) {
         return __awaiter(this, void 0, void 0, function* () {
-            const searchResult = {
-                index: "artist",
-                body: {
-                    from: numFrom,
-                    size: 30,
+            try {
+                const query = {
                     query: {
-                        bool: {
-                            should: [
-                                { match: { artistName: value } },
-                                { match: { trackName: value } },
-                            ],
+                        match: {
+                            artistName: {
+                                query: value,
+                                operator: "and",
+                                fuzziness: "auto",
+                            },
                         },
                     },
-                },
-            };
-            const response = yield client.search(searchResult);
-            return response.body;
+                };
+                const searchResult = {
+                    index: "artist",
+                    type: "_doc",
+                    body: {
+                        from: numFrom,
+                        size: 30,
+                        query,
+                    },
+                };
+                const response = yield client.search(searchResult);
+                return response.body;
+            }
+            catch (err) {
+                throw new Error(`ElasticSearch error: ${err}`);
+            }
         });
     }
 }

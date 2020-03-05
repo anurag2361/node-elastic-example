@@ -2,14 +2,13 @@ import { ApiResponse, Client, RequestParams } from "@elastic/elasticsearch";
 const client = new Client({ node: "http://localhost:9200" });
 
 interface ISearchBody {
-    from: number;
-    size: number;
     query: {
-        bool: {
-            should: [
-                { match: { "artistName": string } },
-                { match: { "trackName": string } },
-            ],
+        match: {
+            artistName: {
+                query: string,
+                operator: string,
+                fuzziness: string,
+            },
         },
     };
 }
@@ -58,10 +57,10 @@ interface ISearchResponse<T> {
 }
 
 export class ElasticFunctions {
-    constructor() { }
-    public async feed(artistId, trackName, kind, artistName, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency) {
+    public async feed(artistId, trackName, kind, artistName: string, collectionName, collectionCensoredName, artistViewUrl, collectionViewUrl, trackViewUrl, previewUrl, artworkUrl100, collectionPrice, releaseDate, collectionExplicitness, trackExplicitness, discCount, discNumber, trackCount, trackNumber, country, currency) {
         await client.index({
             index: "artist",
+            type: "_doc",
             body: {
                 kind,
                 artistId,
@@ -93,23 +92,27 @@ export class ElasticFunctions {
     }
 
     public async fetch(value, numFrom) {
-
-        const searchResult: RequestParams.Search<ISearchBody> = {
-            index: "artist",
-            body: {
-                from: numFrom,
-                size: 30,
+        try {
+            const query = {
                 query: {
-                    bool: {
-                        should: [
-                            { match: { artistName: value } },
-                            { match: { trackName: value } },
-                        ],
+                    match: {
+                        artistName: {
+                            query: value,
+                            operator: "and",
+                            fuzziness: "auto",
+                        },
                     },
                 },
-            },
-        };
-        const response: ApiResponse<ISearchResponse<ISource>> = await client.search(searchResult);
-        return response.body;
+            };
+            const searchResult: RequestParams.Search<ISearchBody> = {
+                index: "artist",
+                type: "_doc",
+                body: query,
+            };
+            const response: ApiResponse<ISearchResponse<ISource>> = await client.search(searchResult);
+            return response.body;
+        } catch (err) {
+            throw new Error(`ElasticSearch error: ${err}`);
+        }
     }
 }

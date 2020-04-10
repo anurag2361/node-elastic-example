@@ -39,13 +39,12 @@ router.post("/feedData", async (req: Request, res: Response) => {
 });
 
 router.post("/getData", async (req: Request, res: Response, next) => {
-    const from: number = parseInt(req.query.from, 10);
     const artistName: string = req.body.artistName;
     const trackName: string = req.body.trackName;
     let value = (artistName === undefined || artistName === null) ? trackName : artistName;
     console.log(value);
     if (value.length > 0) {
-        const result = await ElasticFunctions.prototype.fetch(value, from);
+        const result = await ElasticFunctions.prototype.fetch(value, +req.query.from);
         res.send(result);
     } else {
         console.log("returning");

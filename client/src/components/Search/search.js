@@ -8,18 +8,16 @@ class Search extends Component {
         super();
         this.state = {
             artistName: '',
-            trackName: '',
             response: '',
             from: 0
         };
         this.handleArtistSubmit = this.handleArtistSubmit.bind(this);
-        this.handleTrackSubmit = this.handleTrackSubmit.bind(this);
         this.nextFunction = this.nextFunction.bind(this);
         this.prevFunction = this.prevFunction.bind(this);
     }
 
     componentDidMount() {
-        this.setState({ artistName: "", trackName: "", response: '' });
+        this.setState({ artistName: "", response: '' });
     }
 
     nextFunction(event) {
@@ -29,14 +27,6 @@ class Search extends Component {
         if (this.state.artistName.length > 0) {
             axios.post(`/data/getData?from=${this.state.from}`, {
                 artistName: this.state.artistName
-            }).then((data) => {
-                this.setState({ response: data.data.hits.hits });
-            }).catch((error) => {
-                console.log(error);
-            });
-        } else {
-            axios.post(`/data/getData?from=${this.state.from}`, {
-                trackName: this.state.trackName
             }).then((data) => {
                 this.setState({ response: data.data.hits.hits });
             }).catch((error) => {
@@ -52,14 +42,6 @@ class Search extends Component {
             if (this.state.artistName.length > 0) {
                 axios.post(`/data/getData?from=${this.state.from}`, {
                     artistName: this.state.artistName
-                }).then((data) => {
-                    this.setState({ response: data.data.hits.hits });
-                }).catch((error) => {
-                    console.log(error);
-                });
-            } else {
-                axios.post(`/data/getData?from=${this.state.from}`, {
-                    trackName: this.state.trackName
                 }).then((data) => {
                     this.setState({ response: data.data.hits.hits });
                 }).catch((error) => {
@@ -85,28 +67,12 @@ class Search extends Component {
         });
     }
 
-    handleTrackSubmit(event) {
-        event.preventDefault();
-        const state = this.state;
-        state[event.target.name] = event.target.value;
-        this.setState(state);
-        axios.post(`/data/getData?from=${this.state.from}`, {
-            trackName: this.state.trackName
-        }).then((data) => {
-            this.setState({ response: data.data.hits.hits });
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
     render() {
         const { response } = this.state;
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <p>Enter Artist or Track Name:</p>
-                    <input type="text" id="trackName" name="trackName" value={this.state.trackName} onChange={this.handleTrackSubmit} placeholder="Track Name" />
-                    <input type="text" id="artistName" name="artistName" value={this.state.artistName} onChange={this.handleArtistSubmit} placeholder="Artist Name" />
+                    <input type="text" id="artistName" name="artistName" value={this.state.artistName} onChange={this.handleArtistSubmit} placeholder="Search by Track, Artist, Album" />
                     <button className="btn btn-success" type="submit">Submit</button>
                 </form>
                 <button className="btn btn-primary float-md-left lbut" onClick={this.prevFunction}> Previous </button>

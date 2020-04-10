@@ -5,10 +5,9 @@ const router = Router();
 
 router.post("/feedData", async (req: Request, res: Response) => {
     const artist = req.body.artist;
-    rp(`https://itunes.apple.com/search?term=${artist}&limit=100000`)
+    rp(`https://itunes.apple.com/search?term=${artist}&limit=10000000`)
         .then(async (response) => {
             const result = await JSON.parse(response);
-            // tslint:disable-next-line: prefer-for-of
             for (let i = result.results.length - 1; i >= 0; i--) {
                 let artistId = result.results[i].artistId;
                 let kind = result.results[i].kind;

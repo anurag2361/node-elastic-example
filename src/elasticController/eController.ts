@@ -1,16 +1,8 @@
 import { ApiResponse, Client, RequestParams } from "@elastic/elasticsearch";
-const client = new Client({ node: "http://localhost:9200" });
+export const client = new Client({ node: "http://localhost:9200" });
 
 interface ISearchBody {
-    query: {
-        match: {
-            artistName: {
-                query: string,
-                operator: string,
-                fuzziness: string,
-            },
-        },
-    };
+    query: object;
 }
 
 interface ISource {
@@ -62,52 +54,51 @@ export class ElasticFunctions {
             index: "artist",
             type: "_doc",
             body: {
-                kind,
-                artistId,
-                artistName,
-                trackName,
-                collectionName,
-                collectionCensoredName,
-                artistViewUrl,
-                collectionViewUrl,
-                trackViewUrl,
-                previewUrl,
-                artworkUrl100,
-                collectionPrice,
-                releaseDate,
-                collectionExplicitness,
-                trackExplicitness,
-                discCount,
-                discNumber,
-                trackCount,
-                trackNumber,
-                country,
-                currency,
+                "kind": kind,
+                "artistId": artistId,
+                "artistName": artistName,
+                "trackName": trackName,
+                "collectionName": collectionName,
+                "collectionCensoredName": collectionCensoredName,
+                "artistViewUrl": artistViewUrl,
+                "collectionViewUrl": collectionViewUrl,
+                "trackViewUrl": trackViewUrl,
+                "previewUrl": previewUrl,
+                "artworkUrl100": artworkUrl100,
+                "collectionPrice": collectionPrice,
+                "releaseDate": releaseDate,
+                "collectionExplicitness": collectionExplicitness,
+                "trackExplicitness": trackExplicitness,
+                "discCount": discCount,
+                "discNumber": discNumber,
+                "trackCount": trackCount,
+                "trackNumber": trackNumber,
+                "country": country,
+                "currency": currency,
             },
-        }).then((value) => {
+        }).then(async (value) => {
             return "done";
         }).catch((error) => {
-            throw error;
+            return Promise.reject(`Error in storing data. Error: ${error}`);
         });
     }
 
     public async fetch(value, numFrom) {
         try {
-            const query = {
-                query: {
-                    match: {
-                        artistName: {
-                            query: value,
-                            operator: "and",
-                            fuzziness: "auto",
-                        },
-                    },
-                },
+            const queryString = {
+                "query": {
+                    "multi_match": {
+                        "query": String(value),
+                        "fields": ["artistName", "collectionCensoredName", "collectionName", "trackName"]
+                    }
+                }
             };
-            const searchResult: RequestParams.Search<ISearchBody> = {
+            console.log(queryString);
+            const searchResult: RequestParams.Search = {
                 index: "artist",
                 type: "_doc",
-                body: query,
+                body: queryString,
+                // analyzer: "my_analyzer",
             };
             const response: ApiResponse<ISearchResponse<ISource>> = await client.search(searchResult);
             return response.body;

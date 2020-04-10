@@ -1,6 +1,7 @@
 import cluster from "cluster";
 import express, { Express } from "express";
 import os from "os";
+import { ElasticBootstrap } from "./ESBootstrap/es";
 import router from "./routes/routes";
 
 const numCPUs: number = os.cpus().length;
@@ -21,12 +22,14 @@ if (cluster.isMaster) {
         console.log(`worker ${worker.process.pid} died`);
     });
 } else {
-    const server: any = app.listen(port, "localhost", (err) => {
+    const server: any = app.listen(port, "localhost", async (err) => {
         if (err) {
             throw err;
         } else {
             const host = server.address().address;
             console.log("Example app listening at http://%s:%s", host, port);
+            await ElasticBootstrap.prototype.createIndex();
+            // await ElasticBootstrap.prototype.createMapping();
         }
     });
 }
